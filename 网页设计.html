@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+
+		<link href="css/wangyesheji.css" type="text/css" rel="stylesheet" /> 
+		
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+		</script>
+		
+		<script>
+			$(function() { 
+				var sWidth = $("#cutover").width(); //获取焦点图的宽度（显示面积） 
+				var len = $("#cutover ul li").length; //获取焦点图个数 
+				var index = 0; 
+				var picTimer; 
+			
+				//以下代码添加数字按钮和按钮后的半透明条，还有上一页、下一页两个按钮 
+				var btn = "<div class='btnBg'></div><div class='btn'>"; 
+				for(var i=0; i < len; i++) { 
+					btn += "<span></span>"; 
+				} 
+				btn += "</div><div class='preNext pre'></div><div class='preNext next'></div>"; 
+				$("#cutover").append(btn); 
+				$("#cutover .btnBg").css("opacity",0.5); 
+				//为小按钮添加鼠标滑入事件，以显示相应的内容 
+				$("#cutover .btn span").css("opacity",0.4).mouseenter(function() { 
+					index = $("#cutover .btn span").index(this); 
+					showPics(index); 
+				}).eq(0).trigger("mouseenter"); 
+			
+				//上一页、下一页按钮透明度处理 
+				$("#cutover .preNext").css("opacity",0.4).hover(function() { 
+				$(this).stop(true,false).animate({"opacity":"0.7"},300); 
+				},function() { 
+				$(this).stop(true,false).animate({"opacity":"0.4"},300); 
+				}); 
+			
+				//上一页按钮 
+				$("#cutover .pre").click(function() { 
+					index -= 1; 
+					if(index == -1) {index = len - 1;} 
+					showPics(index); 
+				}); 
+			
+				//下一页按钮 
+				$("#cutover .next").click(function() { 
+					index += 1; 
+					if(index == len) {index=0;} 
+					showPics(index); 
+				}); 
+			
+				//本例为左右滚动，即所有li元素都是在同一排向左浮动，所以这里需要计算出外围ul元素的宽度 
+				$("#cutover ul").css("width",sWidth * (len)); 
+				
+				//鼠标滑上焦点图时停止自动播放，滑出时开始自动播放 
+				$("#cutover").hover(function() { 
+					clearInterval(picTimer); 
+				},function() { 
+					picTimer = setInterval(function() { 
+					showPics(index); 
+					index++; 
+					if(index == len) {index = 0;} 
+				},2000); //此4000代表自动播放的间隔
+				}).trigger("mouseleave"); 
+				
+				//显示图片函数，根据接收的index值显示相应的内容 
+				function showPics(index) { //普通切换 
+					var nowLeft = -index*sWidth; //根据index值计算ul元素的left值 
+					$("#cutover ul").stop(true,false).animate({"left":nowLeft},300); //通过animate()调整ul元素滚动到计算出的position 
+					$("#cutover .btn span").removeClass("on").eq(index).addClass("on"); //为当前的按钮切换到选中的效果 
+					$("#cutover .btn span").stop(true,false).animate({"opacity":"0.4"},300).eq(index).stop(true,false).animate({"opacity":"1"},300); //为当前的按钮切换到选中的效果 
+					} 
+				}); 
+		</script>
+		
+		<script type="text/javascript">
+			window.onload=function tab(tab_t,tab_t_tag,tab_c,tag_c_tag,evt)
+			{
+				var tab_t=document.getElementById('tab_t');
+				var tab_t_li=tab_t.getElementsByTagName('li');
+				var tab_c=document.getElementById('tab_c');
+				var tab_c_li=tab_c.getElementsByTagName('div');
+				var len=tab_t_li.length;
+				var i=0;
+				for(i=0;i<len;i++)
+				{
+					tab_t_li[i].index=i;
+					tab_t_li[i].onclick=function()
+					{
+						for(i=0;i<len;i++)
+						{
+							tab_t_li[i].className='';
+							tab_c_li[i].className='hide';
+						}
+						tab_t_li[this.index].className='act';
+						tab_c_li[this.index].className='';
+					}
+				}
+			}
+			tab("tab_t","li","tab_c","div","onmouseover");
+		</script>
+	</head>
+	<body>
+		<div id="header" align="center">
+				<img src="logon/biaozhi.jpg" class="form_img_1" align="left"/>
+				<span id="form1">NBA-World</span>
+				<span id="form2"><a href="注册.html">注册</a></span>
+				<span id="form2"><a href="登录.html" target="_blank">登录</a></span>
+		</div>
+		
+		<div id="navigation">
+			<ul>
+				<li><a href="#">首页</a></li>
+				<li><a href="#">今日比赛</a></li>
+				<li><a href="#">今日新闻</a></li>
+				<li><a href="#">论坛</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropbtn">球队</a>
+					<div class="dropdown-content">
+						<a href="#">湖人</a>
+						<a href="#">凯尔特人</a>
+						<a href="#">热火</a>
+						<a href="#">快船</a>
+						<a href="#">勇士</a>
+						<a href="#">马刺</a>
+						<a href="#">更多球队</a>
+					</div>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropbtn">球员榜</a>
+					<div class="dropdown-content">
+						<a href="#">得分</a>
+						<a href="#">助攻</a>
+						<a href="#">篮板</a>
+						<a href="#">盖帽</a>
+						<a href="#">抢断</a>
+					</div>
+				</li>
+				<li><a href="#">热门话题</a></li>
+				<li><a href="#">教学视频</a></li>
+				<li><a href="#">关于我们</a></li>
+			</ul>
+		</div>
+		
+		<div id="part1">
+			<div id="picture_1" class="wrapper">
+				<div id="cutover">
+					<ul> 
+					<li><a href="http://www.lanrentuku.com/" target="_blank">
+						<img src="lunbo/zidong1.jpg"/></a></li> 
+					<li><a href="http://www.lanrentuku.com/" target="_blank">
+						<img src="lunbo/zidong2.jpg" /></a></li> 
+					<li><a href="http://www.lanrentuku.com/" target="_blank">
+						<img src="lunbo/zidong3.jpg" /></a></li> 
+					<li><a href="http://www.lanrentuku.com/" target="_blank">
+						<img src="lunbo/zidong4.jpg"  /></a></li> 
+					<li><a href="http://www.lanrentuku.com/" target="_blank">
+						<img src="lunbo/zidong5.jpg" /></a></li> 
+					</ul>
+				</div> 
+			</div>
+			
+			<div id="content1">
+				<p><a href="详情页.html">詹姆斯：希望等我退役之后可以回顾并欣赏这些成就吧 </a></p>
+				<p><a href="https://bbs.hupu.com/38212138.html">默里：一次非常棒的季后赛之旅，但我真不想输球</a></p>
+				<p><a href="https://bbs.hupu.com/38208557.html">时隔4138天后重返总决赛，上一次晋级发生了什么？</a></p>
+				<p><a href="https://bbs.hupu.com/38212340.html">韦德发推祝贺詹姆斯：我们所见证的东西绝对无法被复制</a></p>
+				<p><a href="https://bbs.hupu.com/38211937.html">戴维斯谈詹姆斯：我们互相扶持，不想让彼此失望 </a></p>
+				<p><a href="https://bbs.hupu.com/38211469.html">约基奇谈默里：他让人惊叹，是我们的领袖</a></p>
+				<p><a href="https://nbachina.qq.com/a/20200927/007408.htm">身陷犯规困扰 约基奇20+7+5赛季收官</a></p>
+				<p><a href="https://nbachina.qq.com/a/20200927/008042.htm">为胜利付出一切 浓眉27分为球队护航</a></p>
+				<p><a href="https://nbachina.qq.com/a/20200927/001620.htm">特雷-杨：我不在乎数据 下赛季想要赢球</a></p>
+				<p><a href="https://nbachina.qq.com/a/20200926/011932.htm">巴特勒：对手开始反击后 我们没能给出回应</a></p>
+			</div>
+			
+			<div id="game1">
+				<table class="table_form1">
+					<caption class="caption_form">最近比赛</caption>
+					<tbody>
+						<!--昨日比赛-->
+						<tr>
+							<td colspan="5" class="td_form_title">昨日比赛</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/maci.png" class="duibiao_img"/></td>
+							<td class="td_form1">马刺</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">100</td>
+							<td rowspan="2" class="td_last">已结束</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/qishi.png" class="duibiao_img"/></td>
+							<td class="td_form1">骑士</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">120</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						<tr>
+							<td class="td_img_form"><img src="duibiao/yongshi.png" class="duibiao_img"/></td>
+							<td class="td_form1">勇士</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">130</td>
+							<td rowspan="2" class="td_last">已结束</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/gongniu.png" class="duibiao_img"/></td>
+							<td class="td_form1">公牛</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">112</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						<tr>
+							<td class="td_img_form"><img src="duibiao/rehuo.png" class="duibiao_img"/></td>
+							<td class="td_form1">热火</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">122</td>
+							<td rowspan="2" class="td_last">已结束</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/kaierteren.png" class="duibiao_img"/></td>
+							<td class="td_form1">凯尔特人</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">123</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						
+						
+						<!--今日比赛-->
+						<tr>
+							<td colspan="5" class="td_form_title">今日比赛</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/juejin.png" class="duibiao_img"/></td>
+							<td class="td_form1">掘金</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">90</td>
+							<td rowspan="2" class="td_last">已结束</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/taiyang.png" class="duibiao_img"/></td>
+							<td class="td_form1">太阳</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">93</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						<tr>
+							<td class="td_img_form"><img src="duibiao/lanwang.png" class="duibiao_img"/></td>
+							<td class="td_form1">篮网</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">95</td>
+							<td rowspan="2" class="td_last">进行中</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/huren.png" class="duibiao_img"/></td>
+							<td class="td_form1">湖人</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">102</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						<tr>
+							<td class="td_img_form"><img src="duibiao/senlinlang.png" class="duibiao_img"/></td>
+							<td class="td_form1">森林狼</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">52</td>
+							<td rowspan="2" class="td_last">进行中</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/duxingxia.png" class="duibiao_img"/></td>
+							<td class="td_form1">独行侠</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">63</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						
+						
+						
+						<!--明日比赛-->
+						<tr>
+							<td colspan="5" class="td_form_title">明日比赛</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/76ren.png" class="duibiao_img"/></td>
+							<td class="td_form1">76人</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+							<td rowspan="2" class="td_last">未开始</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/kaituozhe.png" class="duibiao_img"/></td>
+							<td class="td_form1">开拓者</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+			
+						<tr>
+							<td class="td_img_form"><img src="duibiao/moshu.png" class="duibiao_img"/></td>
+							<td class="td_form1">魔术</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+							<td rowspan="2" class="td_last">未开始</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/menglong.png" class="duibiao_img"/></td>
+							<td class="td_form1">猛龙</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+						</tr>
+						<tr>
+							<td class="td_distance" colspan="5"></td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/maci.png" class="duibiao_img"/></td>
+							<td class="td_form1">马刺</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+							<td rowspan="2" class="td_last">未开始</td>
+						</tr>
+						<tr>
+							<td class="td_img_form"><img src="duibiao/kuaichuan.png" class="duibiao_img"/></td>
+							<td class="td_form1">快船</td>
+							<td class="td_common_form"></td>
+							<td class="td_score">0</td>
+						</tr>
+						
+					</tbody>
+				</table>
+			</div>
+			
+			<div id="content2">
+				<div class="news">
+					<div class="news_img">
+						<a href="https://sports.163.com/20/0924/07/FN99A7AR0005877U.html">
+							<img src="news/zimu.jfif" />
+						</a>
+					</div>
+					<div class="news_word">
+						<div class="news_word_top">
+							<a href="https://sports.163.com/20/0924/07/FN99A7AR0005877U.html" class="news_title">密尔沃基雄鹿队超级巨星阿特托昆博跻身时代周刊20年百大人物 韦德也入选</a><br><br>
+						</div>
+						<div class="news_word_bottom">
+							<div class="news_word_bottom_left">
+								<div class="news_involve">
+									<a href="https://nba.hupu.com/players/giannisantetokounmpo-4802.html" class="news_word_a">扬尼斯-阿特托昆博</a>
+									<a href="https://nba.hupu.com/teams/lakers" class="news_word_a">雄鹿</a>
+								</div>
+							</div>
+							<div class="news_word_bottom_right">
+								<span class="news_time">一天前</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="news">
+					<div class="news_img">
+						<a href="https://sports.163.com/20/1016/07/FP1UM1J70005877U.html">
+							<img src="news/dongqiqi.jfif" />
+						</a>
+					</div>
+					<div class="news_word">
+						<div class="news_word_top">
+							<a href="https://sports.163.com/20/1016/07/FP1UM1J70005877U.html" class="news_title">赔率看好东契奇获下赛季MVP 字母哥库里分列二三位 哈登位列第四</a><br><br>
+						</div>
+						<div class="news_word_bottom">
+							<div class="news_word_bottom_left">
+								<div class="news_involve">
+									<a href="" class="news_word_a">东契奇</a>
+									<a href="https://nba.hupu.com/teams/dalasi" class="news_word_a">独行侠</a>
+								</div>
+							</div>
+							<div class="news_word_bottom_right">
+								<span class="news_time">两天前</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="news">
+					<div class="news_img">
+						<a href="https://sports.163.com/20/1016/08/FP1VQEON0005877U.html">
+							<img src="news/delajiqi.jfif" />
+						</a>
+					</div>
+					
+					<div class="news_word">
+						<div class="news_word_top">
+							<a href="https://sports.163.com/20/1016/08/FP1VQEON0005877U.html" class="news_title">热火管理层会优先考虑短合同续约德拉季奇 留薪资空间追求字母哥</a><br><br>
+						</div>
+						<div class="news_word_bottom">
+							<div class="news_word_bottom_left">
+								<div class="news_involve">
+									<a href="" class="news_word_a">德拉季奇</a>
+									<a href="https://nba.hupu.com/teams/lakers" class="news_word_a">热火</a>
+								</div>
+							</div>
+							<div class="news_word_bottom_right">
+								<span class="news_time">三天前</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="news">
+					<div class="news_img">
+						<a href="https://sports.163.com/20/1023/07/FPJU08IA0005877U.html">
+							<img src="news/zhanmusi.jfif" />
+						</a>
+					</div>
+					<div class="news_word">
+						<div class="news_word_top">
+							<a href="https://sports.163.com/20/1023/07/FPJU08IA0005877U.html" class="news_title">詹皇2K21能力值回到98高居榜首 字母哥以97分排在第二 浓眉哈登并列第三</a><br><br>
+						</div>
+						<div class="news_word_bottom">
+							<div class="news_word_bottom_left">
+								<div class="news_involve">
+									<a href="" class="news_word_a">奥尼尔</a>
+									<a href="https://nba.hupu.com/teams/lakers" class="news_word_a">湖人</a>
+								</div>
+							</div>
+							<div class="news_word_bottom_right">
+								<span class="news_time">三天前</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="news">
+					<div class="news_img">
+						<a href="https://sports.163.com/20/0908/07/FM03697J0005877U.html">
+							<img src="news/rehuo.jfif" />
+						</a>
+					</div>
+					<div class="news_word">
+						<div class="news_word_top">
+							<a href="https://sports.163.com/20/0908/07/FM03697J0005877U.html" class="news_title">致命漏判！ 裁判报告显示巴特勒末节最后应该执行罚球</a><br><br>
+						</div>
+						<div class="news_word_bottom">
+							<div class="news_word_bottom_left">
+								<div class="news_involve">
+									<a href="" class="news_word_a">巴特勒</a>
+									<a href="https://nba.hupu.com/teams/heat" class="news_word_a">热火</a>
+									<a href="https://nba.hupu.com/teams/lakers" class="news_word_a">雄鹿</a>
+								</div>
+							</div>
+							<div class="news_word_bottom_right">
+								<span class="news_time">三天前</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="video">
+			<div class="wrap">
+				<ul id="tab_t">
+					<li class="act">比赛集锦</li>
+					<li>球星集锦</li>
+					<li>最佳进球</li>
+					<li>专题</li>
+				</ul>
+				<div id="tab_c">
+					<div id="choose_form">
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai1.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai2.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai3.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai4.jpg"/>
+								</a>
+							</li>
+						</ul>
+						
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai5.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai9.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai7.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai10.jpg"/>
+								</a>
+							</li>
+						</ul>
+					</div>					
+					<div class="hide" id="choose_form">
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/zhanmusi.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/aerdeliqi.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/enbide.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/lilade.jpg"/>
+								</a>
+							</li>
+						</ul>
+						
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/luorui.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/xiaoka.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/qiaozhi.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/hadeng.jpg"/>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="hide" id="choose_form">
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai1.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai2.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai3.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai4.jpg"/>
+								</a>
+							</li>
+						</ul>
+						
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai5.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai6.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai7.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai8.jpg"/>
+								</a>
+							</li>
+						</ul>
+					</div>
+					<div class="hide" id="choose_form">
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai1.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai2.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai3.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai4.jpg"/>
+								</a>
+							</li>
+						</ul>
+						
+						<ul>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai5.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai6.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai7.jpg"/>
+								</a>
+							</li>
+							<li class="videos_form">
+								<a href="#">
+									<img class="cover" src="shipin/bisai8.jpg"/>
+								</a>
+							</li>
+						</ul>
+					</div>				
+				</div>
+			</div>
+		</div>
+		
+		
+		<div id="footer">
+			<div class="foot_top">
+				<div class="foot0"><img src="logon/biaozhi.jpg"/></div>
+				<div class="foot1">
+					<h3>关于</h3>
+					<ul>
+						<li>联系我们</li>
+						<li>问题反馈</li>
+						<li>寻求合作</li>
+					</ul>
+				</div>
+				<div class="foot1">
+					<h3>NBA历史</h3>
+					<ul>
+						<li>NBA历届选秀</li>
+						<li>NBA50大球星</li>
+						<li>NBA知识</li>
+						<li>NBA历届全明星</li>
+						<li>NBA总决赛</li>
+					</ul>
+				</div>
+				<div class="foot1">
+					<h3>关注我们</h3>
+					<img src="footer/erweima1.png" />
+				</div>
+				
+				<div class="foot1">
+					<h3>NBA-World</h3>
+					<img src="footer/erweima2.png">
+				</div>
+			</div>
+			<div class="foot_bottom">
+				<div class="foot_bottom1">
+					<h3>联系热线：400-800-12345</h3>
+				</div>
+				<div class="foot_bottom2">
+					<h3>留言反馈：<a href="留言板.html">留言板</a></h3>
+				</div>
+			</div>
+		</div>
+	
+	</body>
+</html>

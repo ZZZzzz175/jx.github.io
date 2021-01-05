@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<link href="css/zhuce.css" type="text/css" rel="stylesheet" /> 
+		<script>
+			function validate(){
+				var str=document.forms["myForm"]["fname"].value;
+				var code=document.forms["myForm"]["fpassword"].value;
+				var code1=document.forms["myForm"]["fpassword1"].value;
+				if(str.length<6||str.length>10){
+					alert("用户名长度为6--10位！");
+					return false;
+				}
+				else if(str==null||str==""){
+					alert("用户名不能为空！");
+					return false;
+				}
+				else if(code.length<6){
+					alert("密码过短！");
+					return false;
+				}
+				else if(code != code1){
+					alert("两次输入的密码不一致！");
+					return false;
+				}
+				return true;
+			}
+		</script>
+	</head>
+	<body>
+		<div class="title">
+			<div class="part1"></div>
+			<div class="center">
+				<div class="top"></div>
+				<div class="content">
+					<div class="content1"><img src="logon/biaozhi.jpg"></div>
+					<div class="content2">
+						<form name="myForm" onsubmit="return validate()" action="网页设计.html">
+								<span>用&nbsp&nbsp户&nbsp&nbsp名</span><input type="text" name="fname" placeholder="请输入用户名"><br>
+								
+								<span>密&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp码</span><input type="password" name="fpassword" placeholder="请输入密码"><br>
+								
+								<span>确认密码</span><input type="password" name="fpassword1" placeholder="请再输入密码"><br>
+								
+								性别<input type="radio" value="男" checked/>男
+									<input type="radio" value="男" />女<br>
+									
+								喜欢的球队<br>
+								<div class="team">
+									<input type="checkbox" />马刺
+									<input type="checkbox" />湖人
+									<input type="checkbox" />勇士<br>
+									<input type="checkbox" />火箭
+									<input type="checkbox" />骑士
+									<input type="checkbox" />热火<br>
+								</div>
+								<input type="checkbox" class="team_other"/>
+								<input type="text" placeholder="其他请输入"/><br>
+								
+								兴趣爱好<br>
+								<textarea class="text" cols="30" rows="7"></textarea><br>
+								<input type="submit" value="提交"> 
+						</form>
+					</div>
+				</div>
+				<div class="bottom"></div>
+			</div>
+			<div class="part2"></div>
+		</div>
+	</body>
+</html>
