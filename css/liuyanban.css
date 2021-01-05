@@ -5,7 +5,7 @@ body{
 	overflow:scroll;
 	color:white;
 }
-#employeeTable {
+#userTable {
 	margin: 10px auto;
 	border-spacing: 0px;
 }
